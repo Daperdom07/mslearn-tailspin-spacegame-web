@@ -14,10 +14,16 @@ steps:
     packageType: sdk
     version: '6.x'
 
-- task: Npm@1
-  displayName: 'Run npm install'
+# 👇 Paso agregado para preparar entorno de Node.js y herramientas nativas
+- task: UseNode@1
+  displayName: 'Use Node.js 20.x'
   inputs:
-    verbose: false
+    version: '20.x'
+
+- script: |
+    npm install -g node-gyp
+    npm install --legacy-peer-deps
+  displayName: 'Install Node modules with legacy peer deps'
 
 - script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
   displayName: 'Compile Sass assets'
