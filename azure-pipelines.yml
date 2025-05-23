@@ -14,19 +14,20 @@ steps:
     packageType: sdk
     version: '6.x'
 
-# 👇 Paso agregado para preparar entorno de Node.js y herramientas nativas
+# ✅ Usar Node.js 20.x (compatible con Dart Sass)
 - task: UseNode@1
   displayName: 'Use Node.js 20.x'
   inputs:
     version: '20.x'
 
+# ✅ Instalar dependencias sin usar legacy-peer-deps ni node-gyp
 - script: |
-    npm install -g node-gyp
-    npm install --legacy-peer-deps
-  displayName: 'Install Node modules with legacy peer deps'
+    npm install
+  displayName: 'Install Node modules'
 
-- script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
-  displayName: 'Compile Sass assets'
+# ✅ Compilar Sass con Dart Sass (sass en lugar de node-sass)
+- script: 'npx sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
+  displayName: 'Compile Sass assets with Dart Sass'
 
 - task: gulp@1
   displayName: 'Run gulp tasks'
