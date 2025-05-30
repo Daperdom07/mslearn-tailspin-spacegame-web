@@ -9,9 +9,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: 'Use .NET SDK 8.x'
   inputs:
-    packageType: 'sdk'
-    version: '8.0.x'  # o la versión específica que necesitas
+    packageType: sdk
+    version: '8.x'   # Aquí se indica usar .NET 8
 
 # ✅ Usar Node.js 20.x (compatible con Dart Sass)
 - task: UseNode@1
