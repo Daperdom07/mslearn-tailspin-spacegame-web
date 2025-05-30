@@ -14,18 +14,18 @@ steps:
     packageType: sdk
     version: '8.x'   # Aquí se indica usar .NET 8
 
-#  Usar Node.js 20.x (compatible con Dart Sass)
+# ✅ Usar Node.js 20.x (compatible con Dart Sass)
 - task: UseNode@1
   displayName: 'Use Node.js 20.x'
   inputs:
     version: '20.x'
 
-#  Instalar dependencias sin usar legacy-peer-deps ni node-gyp
+# ✅ Instalar dependencias sin usar legacy-peer-deps ni node-gyp
 - script: |
     npm install
   displayName: 'Install Node modules'
 
-#  Compilar Sass con Dart Sass (sass en lugar de node-sass)
+# ✅ Compilar Sass con Dart Sass (sass en lugar de node-sass)
 - script: 'npx sass Tailspin.SpaceGame.Web/wwwroot:Tailspin.SpaceGame.Web/wwwroot'
   displayName: 'Compile Sass assets with Dart Sass'
 
@@ -48,3 +48,15 @@ steps:
     command: 'build'
     arguments: '--no-restore --configuration Release'
     projects: '**/*.csproj'
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Debug'
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Release'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
